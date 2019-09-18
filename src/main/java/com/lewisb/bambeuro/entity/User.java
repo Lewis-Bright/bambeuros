@@ -8,14 +8,14 @@ import javax.persistence.Id;
 public class User {
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String name;
     private int bambeuroBalance; // Assume integer bambeuros, subject to change for decimal values (bambcents?)
 
 //    private List<Transaction> transactions;
 
     public User() {
-        
+
     }
 
     public User(String name) {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserService {
@@ -18,6 +19,10 @@ public class UserService {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
         return users;
+    }
+
+    public Optional<User> findById(int userId) {
+        return userRepository.findById(userId);
     }
 
     public void saveOrUpdate(User user) {
