@@ -3,6 +3,7 @@ package com.lewisb.bambeuro.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class PaymentTransaction implements Transaction {
@@ -45,5 +46,21 @@ public class PaymentTransaction implements Transaction {
     @Override
     public User getSender() {
         return sender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentTransaction that = (PaymentTransaction) o;
+        return id == that.id &&
+                value == that.value &&
+                recipient.equals(that.recipient) &&
+                sender.equals(that.sender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, recipient, sender, value);
     }
 }
