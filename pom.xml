@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lewisb</groupId>
     <artifactId>bambeuro</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>bambeuro</name>
     <description>Simple web app to transfer currency between users</description>
 
