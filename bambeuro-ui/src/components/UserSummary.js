@@ -6,20 +6,50 @@ class UserSummary extends Component {
     super(props);
     this.state = {
       userInfo: "",
-      isLoggingOut: false
+      isLoggingOut: false,
+      recipientName: "Recipient's name",
+      transferAmount: "0.00"
     };
   }
   componentDidMount() {
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
     fetch("/users/" + this.props.userId)
-      .then(response => response.text())
+      .then(response => response.json())
       .then(userInfo => {
         this.setState({ userInfo: userInfo });
       });
   }
+
   handleClick = () => {
     this.setState({
       isLoggingOut: true
     });
+  };
+
+  handleTransferClick = () => {
+    fetch("/users/" + this.state.userId + "/transaction", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        recipient: this.state.recipientName,
+        value: this.state.transferAmount
+      })
+    });
+    this.getUserInfo();
+  };
+
+  handleRecipientChange = event => {
+    this.setState({ recipientName: event.target.value });
+  };
+
+  handleAmountChange = event => {
+    this.setState({ transferAmount: event.target.value });
   };
 
   render() {
@@ -29,7 +59,24 @@ class UserSummary extends Component {
     return (
       <div>
         <h1>User Summary:</h1>
-        <p>{this.state.userInfo}</p>
+        <p>Name: {this.state.userInfo.name}</p>
+        <p>Balance: {this.state.userInfo.bambeuroBalance}</p>
+        <p>Transactions: {this.state.userInfo.transactions}</p>
+        <form>
+          <input
+            type="text"
+            value={this.state.recipientName}
+            onChange={this.handleRecipientChange}
+          />
+          <input
+            type="text"
+            value={this.state.transferAmount}
+            onChange={this.handleAmountChange}
+          />
+          <button type="button" onClick={this.handleTransferClick}>
+            Send Money
+          </button>
+        </form>
         <button onClick={this.handleClick}>Logout</button>
       </div>
     );

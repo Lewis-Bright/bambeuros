@@ -73,8 +73,9 @@ public class UserController {
 
 
     @PostMapping("/users/{id}/transaction")
-    public Optional<PaymentTransaction> createTransaction(@PathVariable(value = "id") int userId, @RequestBody Map<String, String> body) {
-        Optional<User> optionalSender = userService.findById(userId);
+    public Optional<PaymentTransaction> createTransaction(@PathVariable(value = "id") String userId, @RequestBody Map<String, String> body) {
+        LOGGER.info("Received transaction request");
+        Optional<User> optionalSender = userService.findById(Integer.parseInt(userId));
         String recipientName = body.get("recipient");
         String valueString = body.get("value"); // TODO split out into sub methods, create constants, new class
         assert (valueString != null);

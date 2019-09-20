@@ -35,7 +35,7 @@ class BambeuroApplicationTest {
         assertThat(testUser1).isNotEmpty();
         assertThat(testUser1.get().getBambeuroBalance()).as("All new users start with 100 bambeuros").isEqualTo(100);
         Map<String, String> transactionBody = Map.of("recipient", "testUser2", "value", "40");
-        userController.createTransaction(testUser1.get().getId(), transactionBody);
+        userController.createTransaction(String.valueOf(testUser1.get().getId()), transactionBody);
         testUser1 = userService.findByName("testUser1");
         assertThat(testUser1).isNotEmpty();
         assertThat(testUser1.get().getBambeuroBalance()).as("user 1 transferred 40 of 100, leaving 60").isEqualTo(60);
