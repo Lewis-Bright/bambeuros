@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,18 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/search/{name}")
+    public int getUserIdByName(@PathVariable String name) {
+        Optional<User> user = userService.findByName(name);
+        if (user.isPresent()) {
+            return user.get().getId();
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "user not found"
+            );
+        }
     }
 
     @GetMapping("/users/{id}")
